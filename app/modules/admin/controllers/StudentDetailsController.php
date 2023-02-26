@@ -33,7 +33,7 @@ class StudentDetailsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete','upload-student-details','get-class','download'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete','upload-student-details','get-class','download','delete-student-details'],
                         'roles' => ['@']
                     ],
                     [
@@ -268,6 +268,29 @@ public function actionGetClass(){
     return ['output'=>'', 'selected'=>''];
 }
 
+public function actionDeleteStudentDetails(){
+    $data=[];
+    $post = Yii::$app->request->post();
+    $selection = isset($post['selection'])?$post['selection']:'';
+    if(!empty($selection)){
+        foreach($selection as $selectionData){
+            $student_details  = StudentDetails::find()->where(['id'=>$selectionData])->one();
+            if(!empty($student_details)){
+                // $student_details->delete();
+            }
+        }
+
+    $data['status'] = 'ok';
+    $data['message']='records deleted successfully';        
+
+    }else{
+        $data['status']= 'nok';
+        $data['message']='Values are empty try after some time';
+    }
+
+return json_encode($data);
+
+}
 
 
 }

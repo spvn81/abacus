@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
 	return false;
-});";
+});"; 
 $this->registerJs($search);
 $script = <<< JS
    $("#uploadFile").on("click",function(e){
@@ -68,8 +68,20 @@ $script = <<< JS
     $("#delete").on("click",function(){
         let selected = $("input[type=checkbox]");
         let data = selected.serialize();
-        console.log(data)
-        alert(22)
+        $.ajax({
+            url:'student-details/delete-student-details',
+            type:'post',
+            data:data,
+            success:function(res){
+                let response = JSON.parse(res);
+                if(response.status=='ok'){
+
+                }else{
+                    
+                }
+            }
+
+        })
 
 
    });
