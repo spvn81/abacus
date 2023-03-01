@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use Exception;
 use kartik\mpdf\Pdf;
-
+use yii\helpers\Url;
 
 /**
  * StudentDetailsController implements the CRUD actions for StudentDetails model.
@@ -72,24 +72,29 @@ class StudentDetailsController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+    
 
 
     public function actionDownload($id){
+
         $model = $this->findModel($id);
+
         $content = $this->renderPartial('download',[
             'model'=>$model
         ]);
+        return $content;
 
 
-    $pdf = new Pdf([
-        'mode' => Pdf::MODE_CORE, 
-        'format' => Pdf::FORMAT_A3, 
-        'orientation' => Pdf::ORIENT_LANDSCAPE, 
-        'destination' => Pdf::DEST_BROWSER, 
-        'content' => $content,  
-        ]);
+    // $pdf = new Pdf([
+    //     'mode' => Pdf::MODE_CORE, 
+    //     'format' => [190.5,254],
+    //     'orientation' => Pdf::ORIENT_LANDSCAPE, 
+    //     'destination' => Pdf::DEST_BROWSER, 
+    //     'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/bg-image-1.css',
+    //     'content' => $content,  
+    //     ]);
     
-    return $pdf->render(); 
+    // return $pdf->render(); 
 
     }
 
@@ -276,7 +281,7 @@ public function actionDeleteStudentDetails(){
         foreach($selection as $selectionData){
             $student_details  = StudentDetails::find()->where(['id'=>$selectionData])->one();
             if(!empty($student_details)){
-                // $student_details->delete();
+                $student_details->delete();
             }
         }
 

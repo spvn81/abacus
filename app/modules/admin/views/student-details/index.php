@@ -75,8 +75,26 @@ $script = <<< JS
             success:function(res){
                 let response = JSON.parse(res);
                 if(response.status=='ok'){
+                    Swal.fire({
+            title: 'Success',
+            text: response.message,
+            icon: 'success',
+            confirmButtonText: 'Ok'
+            }).then((result)=>{
+                if (result.isConfirmed) {
+                   location.reload()
+
+                }
+            })
 
                 }else{
+                    Swal.fire({
+            title: 'error',
+            text: response.message,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+            })
+
                     
                 }
             }
@@ -218,7 +236,7 @@ $this->registerJs($script, View::POS_END);
 
         [
             'class' => 'kartik\grid\ActionColumn',
-             'template' => '{download}{view} {update} {delete}',
+             'template' => '{download}{view} {update}',
              'buttons' => [
 
                 'download'=> function($url,$model) {
